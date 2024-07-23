@@ -45,10 +45,17 @@
   
         <!-- 提交按鈕 -->
         <button @click="submitFeedback" class="bg-cyan-100 text-sky-400 p-2 rounded w-full">
-          提交
-        </button>
-      </div>
-    </div>
+        提交
+            </button>
+          </div>
+        </div>
+
+  <!-- 成功提交彈出視窗 -->
+        <div v-if="showSuccessMessage" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div class="bg-white p-6 rounded-lg">
+            <p class="text-lg font-semibold text-green-600">提交成功！</p>
+          </div>
+        </div>
   </template>
   
   <script setup>
@@ -59,18 +66,21 @@
   const title = ref('');
   const description = ref('');
   const images = ref([]);
+  const showSuccessMessage = ref(false);
   
   const emit = defineEmits(['close']);
   
   function submitFeedback() {
-    console.log({ category: category.value, title: title.value, description: description.value, images: images.value });
-    
-    alert('提交成功！');
-    
-    // 5秒後自動關閉
-    setTimeout(() => {
-      emit('close');
-    }, 5000);
-  }
+  console.log({ category: category.value, title: title.value, description: description.value, images: images.value });
+  
+  // 顯示成功消息
+  showSuccessMessage.value = true;
+
+  // 5秒後自動關閉成功消息並關閉表單
+  setTimeout(() => {
+    showSuccessMessage.value = false;
+    emit('close');
+  }, 5000);
+}
   </script>
   
